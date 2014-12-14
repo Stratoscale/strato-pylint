@@ -35,5 +35,5 @@ If you want to enable the split packages feature you could add instead:
 UPSETO_JOIN_PYTHON_NAMESPACES=yes PYTHONPATH=py:. ../strato-pylint/pylint.sh py/
 ```
 
-## Return Code
+# Return Code
 The shell scripts will return 0 on success and non-zero on failure.
