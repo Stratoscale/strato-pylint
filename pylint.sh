@@ -1,2 +1,7 @@
 #! /bin/bash
-find $1 -type f -iname "*.py" -exec pylint --rcfile=`dirname $0`/.pylintrc -r n '{}' ';'
+DIR_PATH=`dirname $0`
+find $1 -type f -iname "*.py" -exec pylint --rcfile=$DIR_PATH/.pylintrc -r n '{}' ';' | ack --passthru --nocolor --match ".*"
+if [ $? == 0 ] ; then
+  exit 1
+fi
+exit 0
