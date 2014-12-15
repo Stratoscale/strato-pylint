@@ -5,7 +5,7 @@ See issue here: http://www.logilab.org/8796
 # Installation
 
 ```sh
-$ make install
+$ sudo make install
 ```
 > It will request root password during the installation
 
