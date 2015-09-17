@@ -1,8 +1,6 @@
 pylint==1.0.0
-logilab-common==0.60.0
 astroid==1.0.1
 pep8==1.5.7
-pep8-naming
-flake8
-flake8-debugger
-pep8-naming
+flake8==2.4.1
+flake8-debugger==1.4.0
+pep8-naming==0.3.3
