@@ -37,7 +37,7 @@ load-plugins=pylint_mylogger
 # --enable=similarities". If you want to run only the classes checker, but have
 # no Warning level messages displayed, use"--disable=all --enable=classes
 # --disable=W"
-disable=C, R, W0702, W0614, W0401, locally-disabled, file-ignored, fixme
+disable=C, R, W0702, W0614, W0401, locally-disabled, file-ignored, fixme, broad-except, maybe-no-member
 
 
 [REPORTS]
