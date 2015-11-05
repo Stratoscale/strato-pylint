@@ -1,4 +1,15 @@
+all: packages
+
+clean:
+	rm -rf build dist strato_pylint.egg-info
+
+packages: build/strato-pylint.tar.gz build/rpm/strato-pylint.rpm
+	
+build/strato-pylint.tar.gz:
+	python setup.py sdist
+
+build/rpm/strato-pylint.rpm:
+	python setup.py bdist --format=rpm
+
 install:
-	-pip uninstall -y logilab-common
-	pip install -i http://pip-repo/simple/ --extra-index-url http://mirrors.stratoscale.com.s3-website-us-east-1.amazonaws.com/pip/simple --trusted-host mirrors.stratoscale.com.s3-website-us-east-1.amazonaws.com --trusted-host pip-repo --requirement strato_requirements.txt
-	pip install --requirement requirements.txt
+	python setup.py install

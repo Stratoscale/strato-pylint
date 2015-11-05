@@ -1,0 +1,3 @@
+include config/flake8
+include config/pep8
+include config/pylintrc
