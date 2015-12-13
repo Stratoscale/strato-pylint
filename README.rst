@@ -1,39 +1,51 @@
-# Strato Pylint
+Installation:
+=============
+1. Install using pip::
+    pip install strato-pylint
 
-strato-pylint is a modified version of pylint that was added support for split packages.
-See issue here: http://www.logilab.org/8796
-# Installation
+2. Install from github::
+    git clone https://github.com/stratoscale/strato-pylint.git
+    cd strato-pylint
+    python setup.py install
 
-```sh
-$ sudo make install
-```
-> It will request root password during the installation
+Flake8:
+=======
 
-# Usage
-### pep8
-Your code should comply with pep8 - "Style Guide for Python Code"
+flake8 is a wrapper around 3 projects that improve python code:
+    * PyFlakes
+    * pep8
+    * Ned Batchelder’s McCabe script
 
-Found here: https://www.python.org/dev/peps/pep-0008/
+Flake8 runs all the tools by launching the single flake8 script. It displays the warnings in a per-file, merged output.
 
-You should add the following line to your Makefile:
-```Makefile
-../strato-pylint/pep8.sh DIR_TO_TEST
-```
-### pylint
-Pylint is a tool that checks for errors in Python code, tries to enforce a coding standard and looks for bad code smells.
+In order to config flake8 we took the per-project approch defined in:
+    http://flake8.readthedocs.org/en/latest/config.html
 
-This repository comes with a predefined recommended configuration.
-any improvements are welcomed.
+We place the flake8 configuration per project in a flake8 section in the setup.cfg file.
 
-you should add the flowing line to your Makefile:
-```makefile
-../strato-pylint/pylint.sh DIR_TO_TEST
-```
 
-If you want to enable the split packages feature you could add instead:
-```makefile
-UPSETO_JOIN_PYTHON_NAMESPACES=yes PYTHONPATH=py:. ../strato-pylint/pylint.sh py/
-```
+Pylint:
+=======
 
-# Return Code
+
+pylint loads it's configuration using the following algoritm (taken from: http://docs.pylint.org/run.html):
+
+1. pylintrc in the current working directory
+2. .pylintrc in the current working directory
+3. If the current working directory is in a Python module, Pylint searches up the hierarchy of Python modules until it finds a pylintrc file. This allows you to specify coding standards on a module-by-module basis. Of course, a directory is judged to be a Python module if it contains an __init__.py file.
+4. The file named by environment variable PYLINTRC
+5. if you have a home directory which isn’t /root:
+    * .pylintrc in your home directory
+    * .config/pylintrc in your home directory
+6. /etc/pylintrc
+
+We chose to utilize steps 5 and 6 to configure pylint settings.
+
+Using setup.py we install at ~/.config and at /etc/pylintrc if we install as root -- have permissions to write in /etc.
+
+One can choose to override with specific configurations py adding a .pylintrc in the working project directory.
+
+
+Return Code:
+------------
 The shell scripts will return 0 on success and non-zero on failure.
