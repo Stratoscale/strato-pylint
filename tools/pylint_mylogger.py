@@ -133,7 +133,7 @@ class MyLoggingChecker(checkers.BaseChecker):
                     # Keyword checking on logging strings is complicated by
                     # special keywords - out of scope.
                     return
-            except utils.UnsupportedFormatCharacter, e:
+            except utils.UnsupportedFormatCharacter as e:
                 c = format_string[e.index]
                 self.add_message('E9900', node=node, args=(c, ord(c), e.index))
                 return
