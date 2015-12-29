@@ -12,4 +12,4 @@ build/rpm/strato-pylint.rpm:
 	python setup.py bdist --format=rpm
 
 install:
-	python setup.py install
+	pip install .
