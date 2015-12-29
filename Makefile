@@ -12,4 +12,5 @@ build/rpm/strato-pylint.rpm:
 	python setup.py bdist --format=rpm
 
 install:
+	pip install -r requirements.txt
 	python setup.py install
