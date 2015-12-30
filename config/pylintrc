@@ -51,7 +51,7 @@ confidence=
 # Enable the message, report, category or checker with the given id(s). You can
 # either give multiple identifier separated by comma (,) or put this option
 # multiple time. See also the "--disable" option for examples.
-enable=C0102,C0103,C0112,C0121,C0202,C0203,C0204,C0303,C0304,C0321,C0322,C0323,C0324,C1001
+enable=C0102,C0112,C0121,C0202,C0203,C0204,C0303,C0304,C0321,C0322,C0323,C0324,C1001
 
 # Disable the message, report, category or checker with the given id(s). You
 # can either give multiple identifiers separated by comma (,) or put this
