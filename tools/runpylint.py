@@ -1,3 +1,4 @@
+import sys
 import tempfile
 import zipfile
 import shutil
@@ -13,7 +14,7 @@ def createInitFileIfDoesntExist(directory):
 
 def pylintZipFile(path, verifyPath, globalPath=[]):
     tempDir = tempfile.mkdtemp(dir="/tmp", prefix="pylinttempdir")
-    pythonPath = ":".join(["."] + globalPath)
+    pythonPath = ":".join(["."] + globalPath + sys.path)
     try:
         createInitFileIfDoesntExist(tempDir)
         with zipfile.ZipFile(path, "r") as z:
