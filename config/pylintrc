@@ -70,7 +70,7 @@ disable=C, R, W0702, W0614, W0401, locally-disabled, file-ignored, fixme, maybe-
 # Set the output format. Available formats are text, parseable, colorized, msvs
 # (visual studio) and html. You can also give a reporter class, eg
 # mypackage.mymodule.MyReporterClass.
-output-format=text
+output-format=colorized
 
 # Put messages in a separate file for each module / package specified on the
 # command line instead of printing them on stdout. Reports (if any) will be
