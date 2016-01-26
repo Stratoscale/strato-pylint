@@ -1,7 +1,10 @@
 import re
 import sys
 import os.path
+import argparse
 import fileinput
+
+ignored_errors = 0
 
 MINOR_CODES = ['[R0801(duplicate-code)]',
                '[W0511(fixme)]']
@@ -26,7 +29,7 @@ def formatIssue(line, absFname, minor=False):
                       desc)
     return ' '.join((code, colorFname, lineno, desc))
 
-def parsePylintError(lines, minor, seen):
+def parsePylintError(lines, minor, seen, ignore):
     code, fname, lineno, desc = lines[0].split(':', 3)
     absFname = absoluteFilename(fname)
     if not os.path.isfile(absFname):
@@ -38,6 +41,11 @@ def parsePylintError(lines, minor, seen):
     if code in MINOR_CODES:
         minor.append(text)
         return 0
+    for pattern in ignore:
+        if pattern in absFname:
+            global ignored_errors
+            ignored_errors += 1
+            return 0
     print formatIssue(lines[0], absFname)
     return 1
 
@@ -46,27 +54,31 @@ current = None
 count = 0
 minor = []
 
-args = sys.argv[1:]
-useReturnCode = '--return' in args
-if useReturnCode:
-    args.remove('--return')
+parser = argparse.ArgumentParser()
+parser.add_argument('paths', nargs='*', help='list of paths to pylint')
+parser.add_argument('-r', '--return-code', action='store_true', help='return code 1 in case of pylint errors')
+parser.add_argument('-i', '--ignore', default=[], nargs='*', help='list of patterns in filenames to ignore')
+args = parser.parse_args()
 
-fileInput = fileinput.input(args)
+fileInput = fileinput.input(args.paths)
 for line in fileInput:
     line = line[:-1]
     if line.startswith('************* Module'):
         continue
     if line.startswith('['):
         if current is not None:
-            count += parsePylintError(current, minor, seen)
+            count += parsePylintError(current, minor, seen, args.ignore)
         current = [line]
     else:
         if current is not None:
             current.append(line)
 if current is not None:
-    count += parsePylintError(current, minor, seen)
+    count += parsePylintError(current, minor, seen, args.ignore)
 for issue in minor:
     print issue
-print '\033[;1m%d problems and %d minor issues found\033[0m' % (count, len(minor))
-if useReturnCode and count > 0:
+summary = '%d problems and %d minor issues found' % (count, len(minor))
+if ignored_errors:
+    summary += ' (%d ignored)' % ignored_errors
+print '\033[1m%s\033[0m' % summary
+if args.return_code and count > 0:
     sys.exit(1)
