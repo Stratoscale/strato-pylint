@@ -6,13 +6,14 @@ import subprocess
 import os
 import argparse
 import uuid
+import shlex
 
 def createInitFileIfDoesntExist(directory):
     initFilePath = os.path.join(directory, "__init__.py")
     if not os.path.isfile(initFilePath):
         open(initFilePath, 'a').close()
 
-def pylintZipFile(path, verifyPath, globalPath=[]):
+def pylintZipFile(path, verifyPath, globalPath=[], parsable_format=False, extra_args=""):
     tempDir = tempfile.mkdtemp(dir="/tmp", prefix="pylinttempdir")
     pythonPath = ":".join(["."] + globalPath + sys.path)
     try:
@@ -22,7 +23,8 @@ def pylintZipFile(path, verifyPath, globalPath=[]):
         rcFilePath = os.path.join(os.path.dirname(os.path.realpath(__file__)), "pylint.rc")
         shutil.copyfile(os.path.join(os.path.dirname(os.path.realpath(__file__)), "ignorestuffplugin.py"),
                         os.path.join(tempDir, "ignorestuffplugin.py"))
-        subprocess.Popen(["pylint", "--rcfile", rcFilePath, verifyPath], env={"PYTHONPATH": pythonPath}, cwd=tempDir).wait()
+        output_format = "" if not parsable_format else "--msg-template={path}:{line}: [{msg_id}({symbol})]: {msg}"
+        subprocess.Popen(["pylint", output_format] +  shlex.split(extra_args) + ["--rcfile", rcFilePath, verifyPath], env={"PYTHONPATH": pythonPath}, cwd=tempDir).wait()
     finally:
         shutil.rmtree(tempDir)
 
@@ -64,6 +66,8 @@ parser = argparse.ArgumentParser(description='pylint zipped files or single pyth
 parser.add_argument('--zip', dest="zipfiles", default=[], action='append', help='zip file with source:relative package path to verify inside zip file (e.g. strato)')
 parser.add_argument('--file', dest="files", default=[], action='append', help='file to pylint')
 parser.add_argument('--dir', dest="dirs", default=[], action='append', help='directory to pylint python files in dir (recursive)')
+parser.add_argument('--parsable', action='store_true', help='output in parsable format')
+parser.add_argument('--extra', default="", help='extra arguments to pass to pylint (ie --extra="--disable=C,R"')
 parser.add_argument('--globalpath', default=[], action='append', help='path to add to PYTHONPATH to simulate site packages.')
 args = parser.parse_args()
 
@@ -76,4 +80,5 @@ for filePath in args.files:
 
 for zipFileAndPackagePath in args.zipfiles:
     filePath, packagePath = zipFileAndPackagePath.split(':')
-    pylintZipFile(filePath, packagePath, globalPath=args.globalpath)
+    pylintZipFile(filePath, packagePath, globalPath=args.globalpath, parsable_format=args.parsable,
+                  extra_args=args.extra)
