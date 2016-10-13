@@ -16,6 +16,10 @@ def createInitFileIfDoesntExist(directory):
 def pylintZipFile(path, verifyPath, globalPath=[], parsable_format=False, extra_args=""):
     tempDir = tempfile.mkdtemp(dir="/tmp", prefix="pylinttempdir")
     pythonPath = ":".join(["."] + globalPath + sys.path)
+    env = {"PYTHONPATH": pythonPath}
+    pylintHome = os.environ.get("PYLINTHOME")
+    if pylintHome is not None:
+        env["PYLINTHOME"] = pylintHome
     try:
         createInitFileIfDoesntExist(tempDir)
         with zipfile.ZipFile(path, "r") as z:
@@ -24,7 +28,7 @@ def pylintZipFile(path, verifyPath, globalPath=[], parsable_format=False, extra_
         shutil.copyfile(os.path.join(os.path.dirname(os.path.realpath(__file__)), "ignorestuffplugin.py"),
                         os.path.join(tempDir, "ignorestuffplugin.py"))
         output_format = "" if not parsable_format else "--msg-template={path}:{line}: [{msg_id}({symbol})]: {msg}"
-        subprocess.Popen(["pylint", output_format] +  shlex.split(extra_args) + ["--rcfile", rcFilePath, verifyPath], env={"PYTHONPATH": pythonPath}, cwd=tempDir).wait()
+        subprocess.Popen(["pylint", output_format] +  shlex.split(extra_args) + ["--rcfile", rcFilePath, verifyPath], env=env, cwd=tempDir).wait()
     finally:
         shutil.rmtree(tempDir)
 
