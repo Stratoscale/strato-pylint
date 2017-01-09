@@ -19,7 +19,7 @@ flake8 is a wrapper around 3 projects that improve python code:
 Flake8 runs all the tools by launching the single flake8 script. It displays the warnings in a per-file, merged output.
 
 In order to config flake8 we took the per-project approch defined in:
-    http://flake8.readthedocs.org/en/latest/config.html
+    http://flake8.readthedocs.io/en/latest/user/configuration.html
 
 We place the flake8 configuration per project in a flake8 section in the setup.cfg file.
 
