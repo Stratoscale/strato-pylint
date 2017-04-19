@@ -11,6 +11,9 @@ from codecs import open
 import os
 from os import path
 from os.path import expanduser
+import subprocess
+
+PKG_INFO = 'PKG-INFO'
 
 here = path.abspath(path.dirname(__file__))
 
@@ -26,13 +29,23 @@ if os.geteuid() == 0:
     data_files.append(("/etc", ['config/pylintrc']))
 
 
+def get_git_version():
+    if os.path.exists(PKG_INFO):
+        with open(PKG_INFO) as package_info:
+            for key, value in (line.split(':', 1) for line in package_info):
+                if key.startswith('Version'):
+                    return value.strip()
+
+    return subprocess.check_output(['git', 'rev-parse', 'HEAD']).strip()
+
+
 setup(
     name='strato_pylint',
 
     # Versions should comply with PEP440.  For a discussion on single-sourcing
     # the version across setup.py and the project code, see
     # https://packaging.python.org/en/latest/single_source_version.html
-    version='1.0.0',
+    version=get_git_version(),
 
     description='A project suppling pylint flask and pep8 utilities.',
     long_description=long_description,
