@@ -10,3 +10,6 @@ build/strato-pylint.tar.gz:
 
 install:
 	pip install .
+
+upload: packages
+	python setup.py sdist upload -r http://strato-pypi.dc1:5002/strato/staging/
