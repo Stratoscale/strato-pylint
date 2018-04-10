@@ -62,7 +62,7 @@ enable=C0102,C0112,C0121,C0202,C0203,C0204,C0303,C0304,C0321,C0322,C0323,C0324,C
 # --enable=similarities". If you want to run only the classes checker, but have
 # no Warning level messages displayed, use"--disable=all --enable=classes
 # --disable=W"
-disable=C, R, W0702, W0614, W0401, locally-disabled, file-ignored, fixme, maybe-no-member
+disable=C, R, W0702, W0614, W0401, locally-disabled, file-ignored, fixme
 
 
 [REPORTS]
