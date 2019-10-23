@@ -36,7 +36,7 @@ def get_git_version():
                 if key.startswith('Version'):
                     return value.strip()
 
-    return subprocess.check_output(['git', 'rev-parse', 'HEAD']).strip()
+    return subprocess.check_output(['git', 'rev-parse', 'HEAD']).strip().decode()
 
 
 setup(
@@ -103,9 +103,9 @@ setup(
     # requirements files see:
     # https://packaging.python.org/en/latest/requirements.html
     install_requires=[
-        'pylint==1.7.0',
+        'pylint==1.9.5',
         'pep8==1.6.2',
-        'flake8==2.5.1',
+        'flake8==2.6.2',
         'flake8-debugger==1.4.0',
         'pep8-naming==0.3.3',
         'logilab-common==1.1.0'
