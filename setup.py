@@ -32,7 +32,7 @@ if os.geteuid() == 0:
 def get_git_version():
     if os.path.exists(PKG_INFO):
         with open(PKG_INFO) as package_info:
-            for key, value in (line.split(':', 1) for line in package_info):
+            for key, value in (line.decode('utf-8').split(':', 1) for line in package_info):
                 if key.startswith('Version'):
                     return value.strip()
 
