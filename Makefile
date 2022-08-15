@@ -1,11 +1,11 @@
-all: packages
+all: package
 
 clean:
 	rm -rf build dist strato_pylint.egg-info
 
-packages: dist/strato-pylint.tar.gz
+packages: dist/strato_pylint.tar.gz
 
-dist/strato-pylint.tar.gz:
+dist/strato_pylint.tar.gz:
 	python setup.py sdist
 
 install:
