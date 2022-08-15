@@ -103,8 +103,8 @@ setup(
     # requirements files see:
     # https://packaging.python.org/en/latest/requirements.html
     install_requires=[
-        'pylint==1.9.5; python_version < "3"',
-        'pylint==2.5.3; python_version > "2"',
+        'pylint==1.9.5; python_version > "3.0"',
+        'pylint==2.5.3; python_version ~= "2"',
         'pep8==1.6.2',
         'flake8==2.6.2',
         'flake8-debugger==1.4.0',
