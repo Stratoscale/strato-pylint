@@ -104,10 +104,10 @@ setup(
     # https://packaging.python.org/en/latest/requirements.html
     install_requires=[
         'pylint==1.9.5; python_version < "3"',
-        'pylint==2.5.3; python_version > "3"',
+        'pylint>=2.13.9; python_version > "3"',
         'pep8==1.6.2',
         'flake8==2.6.2; python_version < "3"',
-        'flake8==3.6.0; python_version > "3"',
+        'flake8==5.0.4; python_version > "3"',
         'future; python_version < "3"',
         'flake8-debugger==1.4.0',
         'pep8-naming==0.3.3',
