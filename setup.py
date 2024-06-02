@@ -87,38 +87,24 @@ setup(
     # simple. Or you can use find_packages().
     # packages=find_packages('', exclude=['contrib', 'docs', 'tests']),
     packages=find_packages(),
-
     dependency_links=[
         "http://pip-repo/simple/",
         "http://mirrors.stratoscale.com.s3-website-us-east-1.amazonaws.com/pip/simple",
         "https://pypi.python.org/simple/"
     ],
-
-    # Alternatively, if you want to distribute just a my_module.py, uncomment
-    # this:
-    #   py_modules=["my_module"],
-
-    # List run-time dependencies here.  These will be installed by pip when
-    # your project is installed. For an analysis of "install_requires" vs pip's
-    # requirements files see:
-    # https://packaging.python.org/en/latest/requirements.html
     install_requires=[
         'pylint==1.9.5; python_version < "3"',
-        'pylint>=2.13.9; python_version > "3"',
+        'pylint>=2.13.9; python_version >= "3"',
         'pep8==1.6.2',
         'flake8==2.6.2; python_version < "3"',
-        'flake8==5.0.4; python_version > "3"',
+        'flake8>=5.0.4; python_version >= "3"',
         'future; python_version < "3"',
         'flake8-debugger==1.4.0; python_version < "3"',
-        'flake8-debugger==3.2.1; python_version > "3"',
-        'pep8-naming==0.3.3',
+        'flake8-debugger>=3.2.1; python_version >= "3"',
+        'pep8-naming==0.3.3; python_version < "3"',
+        'pep8-naming>=0.13.1; python_version >= "3"',
         'logilab-common==1.1.0'
     ],
-
-    # List additional groups of dependencies here (e.g. development
-    # dependencies). You can install these using the following syntax,
-    # for example:
-    # $ pip install -e .[dev,test]
     extras_require={
     },
     include_package_data=True,
